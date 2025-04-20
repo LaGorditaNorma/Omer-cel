@@ -86,6 +86,7 @@
 
   <script>
     const start = new Date();
+    start.setDate(start.getDate() - 1); // Set the start date to yesterday
     start.setHours(18, 0, 0, 0);
     const now = (new Date()) - 1;
     const omerStart = now >= start ? start : new Date(start.getTime() - 24 * 60 * 60 * 1000);
