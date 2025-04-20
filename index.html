@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuenta del Omer</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Rubik', sans-serif;
+      background: linear-gradient(to right, #e0c3fc, #8ec5fc);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: #333;
+      margin: 0;
+      padding: 1rem;
+      min-height: 100vh;
+    }
+    .card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+      animation: fadeIn 1.5s ease;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 1rem;
+    }
+    .share-button {
+      margin-top: 1rem;
+      padding: 0.75rem 1.25rem;
+      font-size: 1rem;
+      background-color: #25D366;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+    .share-button:hover {
+      background-color: #128C7E;
+    }
+    .shofar {
+      margin-top: 1.5rem;
+    }
+    .calendar {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      background: #f5f5f5;
+      padding: 1rem;
+      border-radius: 12px;
+      overflow-x: auto;
+    }
+    .verse {
+      margin-top: 1rem;
+      font-style: italic;
+      color: #555;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1 id="omer-count">Cargando...</h1>
+    <p id="omer-detail"></p>
+    <p id="countdown"></p>
+    <button class="share-button" onclick="shareToWhatsApp()">📲 Compartir en WhatsApp</button>
+    <p class="verse" id="daily-verse"></p>
+    <div class="calendar" id="omer-calendar"></div>
+    <audio id="shofar-sound" class="shofar" src="https://www.myinstants.com/media/sounds/shofar.mp3" preload="auto"></audio>
+  </div>
+
+  <script>
+    const start = new Date();
+    start.setHours(18, 0, 0, 0);
+    const now = new Date();
+    const omerStart = now >= start ? start : new Date(start.getTime() - 24 * 60 * 60 * 1000);
+    const diffTime = now - omerStart;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+    let displayDay = diffDays >= 1 && diffDays <= 49 ? diffDays : 0;
+    const weeks = Math.floor(displayDay / 7);
+    const days = displayDay % 7;
+    const weekText = `${weeks} semana${weeks === 1 ? '' : 's'}`;
+    const dayText = `${days} día${days === 1 ? '' : 's'}`;
+
+    document.getElementById("omer-count").textContent = `🕊️ Día ${displayDay} del Omer`;
+    document.getElementById("omer-detail").textContent = `📿 (${weekText} y ${dayText})`;
+    const remainingDays = 49 - displayDay;
+    document.getElementById("countdown").textContent = `⏳ Faltan ${remainingDays} día${remainingDays === 1 ? '' : 's'} para completar la cuenta`;
+
+    document.getElementById("shofar-sound").play().catch(() => {});
+
+    function shareToWhatsApp() {
+      const message = document.getElementById("omer-count").textContent + "\n" +
+                      document.getElementById("omer-detail").textContent + "\n" +
+                      document.getElementById("countdown").textContent;
+      const encodedMessage = encodeURIComponent(message);
+      const url = `https://wa.me/?text=${encodedMessage}`;
+      window.open(url, '_blank');
+    }
+
+    const calendar = document.getElementById("omer-calendar");
+    let calendarHTML = '<strong>Calendario del Omer:</strong><br><div style="display:grid;grid-template-columns: repeat(7, 1fr); gap:5px; margin-top: 10px;">';
+    for (let i = 1; i <= 49; i++) {
+      let style = i === displayDay ? 'background:#25D366;color:white;font-weight:bold;' : 'background:#ddd;';
+      calendarHTML += `<div style="padding:6px;border-radius:8px;${style}">${i}</div>`;
+    }
+    calendarHTML += '</div>';
+    calendar.innerHTML = calendarHTML;
+
+    const verses = [
+      "Contaréis siete semanas completas (Levítico 23:15)",
+      "Enséñanos a contar nuestros días (Salmo 90:12)",
+      "Esperé pacientemente a Jehová (Salmo 40:1)",
+      "El justo florecerá como la palmera (Salmo 92:12)",
+      "Lámpara es a mis pies tu palabra (Salmo 119:105)",
+      "Los que esperan en el Señor tendrán nuevas fuerzas (Isaías 40:31)"
+    ];
+    const verse = verses[displayDay % verses.length];
+    document.getElementById("daily-verse").textContent = `📖 Verso del día: “${verse}”`;
+  </script>
+</body>
+</html>
