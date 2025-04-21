@@ -94,22 +94,22 @@
   </div>
 
   <script>
-    const start = new Date() // Replace with the actual start date of the Omer
-    start.setDate(start.getDate() - 1); // Set the start date to yesterday
-    start.setHours(18, 0, 0, 0);
+    const start = new Date(2025, 3, 19); // 19th April 2025 (Month is 0-indexed)
+    start.setDate(start.getDate() ); // Set the start date to yesterday
+    start.setHours(19, 0, 0, 0);
     const now = new Date();
     const omerStart = now >= start ? start : new Date(start.getTime() - 24 * 60 * 60 * 1000);
     const diffTime = now - omerStart;
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
     let displayDay = diffDays >= 1 && diffDays <= 50 ? diffDays : 0;
-    const weeks = Math.floor(displayDay / 7);
+    const weeks = Math.floor(displayDay / 7) + 1;
     const days = displayDay % 7;
-    const weekText = `${weeks} semana${weeks === 1 ? '' : 's'}`;
-    const dayText = `${days} día${days === 1 ? '' : 's'}`;
+    const weekText = `semana ${weeks}`;
+    const dayText = `día ${days}`;
 
     document.getElementById("omer-count").textContent = `🕊️ Día ${displayDay} del Omer`;
-    document.getElementById("omer-detail").textContent = `📿 (${weekText} y ${dayText})`;
+    document.getElementById("omer-detail").textContent = `📿 (${weekText},  ${dayText})`;
     const remainingDays = 50 - displayDay;
     document.getElementById("countdown").textContent = `⏳ Faltan ${remainingDays} día${remainingDays === 1 ? '' : 's'} para completar la cuenta`;
 
@@ -145,7 +145,7 @@
       "La semana de las batallas contra Amaleq (Éxodo 17.08 - 17.16)",
       "La semana de permanecer en el Monte Sinaí (Éxodo 19.01 - 19.25)"
     ];
-    const verse = verses[weeks];
+    const verse = verses[weeks - 1];
     document.getElementById("daily-verse").textContent = `📖 Texto Semanal: “${verse}”`;
 
     const pdfs = [
