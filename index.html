@@ -67,6 +67,16 @@
       font-style: italic;
       color: #555;
     }
+
+    a {
+      text-decoration: none;
+      color: #881f71;
+      font-weight: bold;
+    }
+    a:hover {
+      color: #29b976;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -81,19 +91,18 @@
     <button class="share-button" onclick="shareToWhatsApp()">📲 Compartir en WhatsApp</button>
     <p class="verse" id="daily-verse"></p>
     <div class="calendar" id="omer-calendar"></div>
-    <audio id="shofar-sound" class="shofar" src="https://www.myinstants.com/media/sounds/shofar.mp3" preload="auto"></audio>
   </div>
 
   <script>
-    const start = new Date();
+    const start = new Date() // Replace with the actual start date of the Omer
     start.setDate(start.getDate() - 1); // Set the start date to yesterday
     start.setHours(18, 0, 0, 0);
-    const now = (new Date()) - 1;
+    const now = new Date();
     const omerStart = now >= start ? start : new Date(start.getTime() - 24 * 60 * 60 * 1000);
     const diffTime = now - omerStart;
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
-    let displayDay = diffDays >= 1 && diffDays <= 49 ? diffDays : 0;
+    let displayDay = diffDays >= 1 && diffDays <= 50 ? diffDays : 0;
     const weeks = Math.floor(displayDay / 7);
     const days = displayDay % 7;
     const weekText = `${weeks} semana${weeks === 1 ? '' : 's'}`;
@@ -101,10 +110,9 @@
 
     document.getElementById("omer-count").textContent = `🕊️ Día ${displayDay} del Omer`;
     document.getElementById("omer-detail").textContent = `📿 (${weekText} y ${dayText})`;
-    const remainingDays = 49 - displayDay;
+    const remainingDays = 50 - displayDay;
     document.getElementById("countdown").textContent = `⏳ Faltan ${remainingDays} día${remainingDays === 1 ? '' : 's'} para completar la cuenta`;
 
-    document.getElementById("shofar-sound").play().catch(() => {});
 
     function shareToWhatsApp() {
       const message = document.getElementById("omer-count").textContent + "\n" +
@@ -122,18 +130,100 @@
       calendarHTML += `<div style="padding:6px;border-radius:8px;${style}">${i}</div>`;
     }
     calendarHTML += '</div>';
+    calendarHTML += `<div style="margin-top:10px;padding:10px;border-radius:8px;background:#ddd;color:black;font-weight:bold;text-align:center;width:94%;">🎉 Dia 50</div>`;
+    if (displayDay === 50) {
+    calendarHTML = `<div style="margin-top:10px;padding:150px;border-radius:12px;background:#25D366;color:white;font-weight:bold;text-align:center;font-size:2rem;display:flex;justify-content:center;align-items:center;width:18%;">🎉 SHAVUOT 🎉</div>`;
+    }
     calendar.innerHTML = calendarHTML;
 
     const verses = [
-      "Contaréis siete semanas completas (Levítico 23:15)",
-      "Enséñanos a contar nuestros días (Salmo 90:12)",
-      "Esperé pacientemente a Jehová (Salmo 40:1)",
-      "El justo florecerá como la palmera (Salmo 92:12)",
-      "Lámpara es a mis pies tu palabra (Salmo 119:105)",
-      "Los que esperan en el Señor tendrán nuevas fuerzas (Isaías 40:31)"
+      "La semana del cruce del Mar Rojo (Éxodo 14.26 - 15.21)",
+      "La semana del cambio del agua de la amargura (de Marah) (Éxodo 14.26 - 15.21)",
+      "Elim, donde encontraron 12 arroyos de agua y 70 palmeras (Éxodo 15.27 - 16.03)",
+      "La semana del maná, que cayó del cielo en el desierto (Éxodo 16.04 - 16.36)",
+      "La semana de brotar agua de la roca (Éxodo 17.01 - 17.07)",
+      "La semana de las batallas contra Amaleq (Éxodo 17.08 - 17.16)",
+      "La semana de permanecer en el Monte Sinaí (Éxodo 19.01 - 19.25)"
     ];
-    const verse = verses[displayDay % verses.length];
-    document.getElementById("daily-verse").textContent = `📖 Verso del día: “${verse}”`;
+    const verse = verses[weeks];
+    document.getElementById("daily-verse").textContent = `📖 Texto Semanal: “${verse}”`;
+
+    const pdfs = [
+      { title: "Estudio Dia 1", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%201%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 2", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%202%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 3", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%203%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 4", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%204%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 5", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%205%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 6", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%206%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 7", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%207%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 8", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%208%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 9", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%209%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 10", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2010%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 11", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2011%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 12", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2012%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 13", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2013%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 14", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2014%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 15", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2015%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 16", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2016%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 17", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2017%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 18", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2018%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 19", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2019%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 20", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2020%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 21", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2021%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 22", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2022%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 23", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2023%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 24", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2024%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 25", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2025%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 26", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2026%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 27", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2027%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 28", url: "https://retorno.tv/Pascua2020/Omer/dia%2028%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 29", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2029%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 30", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2030%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 31", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2031%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 32", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2032%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 33", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2033%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 34", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2034%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 35", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2035%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 36", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2036%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 37", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2037%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 38", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2038%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 39", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2039%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 40", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2040%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 41", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2041%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 42", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2042%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 43", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2043%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 44", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2044%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 45", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2045%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 46", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2046%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 47", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2047%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 48", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2048%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 49", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2049%20-%20cuenta%20del%20Omer.pdf" },
+      { title: "Estudio Dia 50", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2050%20-%20cuenta%20del%20Omer.pdf" }
+    ];
+
+   
+    if (displayDay >= 1 && displayDay <= 50) {
+      const selectedPdf = pdfs[displayDay - 1];
+      // Crear un contenedor para el enlace si no existe
+      let linkContainer = document.getElementById("pdf-link");
+      if (!linkContainer) {
+        linkContainer = document.createElement("div");
+        linkContainer.id = "pdf-link";
+        document.querySelector(".card").appendChild(linkContainer);
+      }
+      // Mostrar el enlace en la página
+      linkContainer.innerHTML = `Link para: <a href="${selectedPdf.url}" target="_blank">${selectedPdf.title}</a>`;
+    }
+
+    if (displayDay === 50) {
+      document.getElementById("omer-count").textContent = "🎉 ¡Día 50 del Omer!";
+      document.getElementById("omer-detail").textContent = "🎊 ¡Felicidades por completar la cuenta del Omer!";
+      document.getElementById("countdown").textContent = "✅ La cuenta del Omer ha finalizado.";
+
+      document.getElementById("daily-verse").textContent = "";
+    }
+
+
   </script>
 </body>
 </html>
