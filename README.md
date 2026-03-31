@@ -1,92 +1,92 @@
 # Omer-cel 🌟
 
-Omer-cel es un proyecto web interactivo desarrollado con HTML, CSS y JavaScript. Una plataforma moderna y responsiva diseñada para ofrecer una experiencia de usuario excepcional.
+Omer-cel is an interactive web project developed with HTML, CSS, and JavaScript. A modern and responsive platform designed to deliver an exceptional user experience.
 
-## 🎯 Características Principales
+## 🎯 Key Features
 
-- **Diseño Responsivo**: Adaptable a todos los dispositivos (móvil, tablet, desktop)
-- **Interfaz Moderna**: UI limpia e intuitiva
-- **Rendimiento Optimizado**: Carga rápida y eficiente
-- **Interactividad**: Funcionalidades JavaScript para una mejor experiencia del usuario
+- **Responsive Design**: Adapts to all devices (mobile, tablet, desktop)
+- **Modern Interface**: Clean and intuitive UI
+- **Optimized Performance**: Fast and efficient loading
+- **Interactivity**: JavaScript functionalities for an enhanced user experience
 
-## 🚀 Demostración en Vivo
+## 🚀 Live Demo
 
-Accede al proyecto desplegado en Vercel:
+Access the project deployed on Vercel:
 [https://omer-cel.vercel.app](https://omer-cel.vercel.app)
 
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
 ```
 Omer-cel/
-├── index.html        # Página principal
-├── README.md         # Este archivo
-└── [Assets/recursos] # Recursos adicionales
+├── index.html        # Main page
+├── README.md         # This file
+└── [Assets/Resources] # Additional resources
 ```
 
-## 🛠️ Tecnologías Utilizadas
+## 🛠️ Technologies Used
 
-- **HTML5**: Estructura semántica
-- **CSS3**: Estilos y diseño responsivo
-- **JavaScript**: Interactividad y lógica del cliente
+- **HTML5**: Semantic structure
+- **CSS3**: Styles and responsive design
+- **JavaScript**: Client-side interactivity and logic
 
-## 📋 Requisitos Previos
+## 📋 Prerequisites
 
-- Navegador web moderno (Chrome, Firefox, Safari, Edge)
-- Conexión a internet para acceder a la versión en línea
+- Modern web browser (Chrome, Firefox, Safari, Edge)
+- Internet connection to access the online version
 
-## 🔧 Instalación Local
+## 🔧 Local Installation
 
-1. Clona el repositorio:
+1. Clone the repository:
 ```bash
 git clone https://github.com/LaGorditaNorma/Omer-cel.git
 ```
 
-2. Navega al directorio:
+2. Navigate to the directory:
 ```bash
 cd Omer-cel
 ```
 
-3. Abre `index.html` en tu navegador web o sirve los archivos con un servidor local:
+3. Open `index.html` in your web browser or serve the files with a local server:
 ```bash
-# Usando Python 3
+# Using Python 3
 python -m http.server 8000
 
-# Usando Node.js (con http-server)
+# Using Node.js (with http-server)
 npx http-server
 ```
 
-## 📖 Cómo Usar
+## 📖 How to Use
 
-1. Abre la aplicación en tu navegador
-2. Explora las diferentes secciones
-3. Interactúa con los elementos interactivos
-4. Disfruta de la experiencia
+1. Open the application in your browser
+2. Explore the different sections
+3. Interact with the interactive elements
+4. Enjoy the experience
 
-## 🤝 Contribuciones
+## 🤝 Contributing
 
-Las contribuciones son bienvenidas. Si deseas contribuir:
+Contributions are welcome. If you want to contribute:
 
-1. Fork el repositorio
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+1. Fork the repository
+2. Create a branch for your feature (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📝 Licencia
+## 📝 License
 
-Este proyecto está disponible bajo la licencia que especifiques. Consulta el archivo LICENSE para más detalles.
+This project is available under the license you specify. Check the LICENSE file for more details.
 
-## 👤 Autor
+## 👤 Author
 
 **LaGorditaNorma**
 - GitHub: [@LaGorditaNorma](https://github.com/LaGorditaNorma)
 
-## 📞 Contacto y Soporte
+## 📞 Contact and Support
 
-Si tienes preguntas o sugerencias, no dudes en:
-- Abrir un [Issue](https://github.com/LaGorditaNorma/Omer-cel/issues)
-- Contactarme a través de GitHub
+If you have questions or suggestions, feel free to:
+- Open an [Issue](https://github.com/LaGorditaNorma/Omer-cel/issues)
+- Contact me through GitHub
 
 ---
 
-⭐ Si este proyecto te fue útil, considera dejar una estrella en el repositorio.
+⭐ If this project was helpful to you, consider leaving a star on the repository.
