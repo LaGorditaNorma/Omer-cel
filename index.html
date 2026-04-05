@@ -312,10 +312,10 @@
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
       // Definimos el día real actual
-      //currentDayReal = Math.max(0, Math.min(diffDays, totalDays));
+      currentDayReal = Math.max(0, Math.min(diffDays, totalDays));
       
       // *MODO PRUEBA*: Si querés probar el calendario, descomentá la línea de abajo y poné un número (ej. 15)
-      currentDayReal = 21;
+      //currentDayReal = 21;
 
       selectedDay = currentDayReal; // Iniciamos viendo el día de hoy
       
