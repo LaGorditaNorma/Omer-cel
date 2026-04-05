@@ -4,226 +4,353 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cuenta del Omer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --success: #10b981;
+      --success-hover: #059669;
+      --bg: #f3f4f6;
+      --surface: #ffffff;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+    }
 
     body {
-      font-family: 'Rubik', sans-serif;
-      background: linear-gradient(to right, #e0c3fc, #8ec5fc);
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
-      color: #333;
+      min-height: 100vh;
       margin: 0;
       padding: 1rem;
-      min-height: 100vh;
-    }
-    .card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 20px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      text-align: center;
-      width: 100%;
-      max-width: 400px;
-      animation: fadeIn 1.5s ease;
-    }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    p {
-      font-size: 1rem;
-    }
-    .share-button {
-      margin-top: 1rem;
-      padding: 0.75rem 1.25rem;
-      font-size: 1rem;
-      background-color: #25D366;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      width: 100%;
-    }
-    .share-button:hover {
-      background-color: #128C7E;
-    }
-    .shofar {
-      margin-top: 1.5rem;
-    }
-    .calendar {
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      background: #f5f5f5;
-      padding: 1rem;
-      border-radius: 12px;
-      overflow-x: auto;
-    }
-    .verse {
-      margin-top: 1rem;
-      font-style: italic;
-      color: #555;
     }
 
-    a {
-      text-decoration: none;
-      color: #881f71;
-      font-weight: bold;
+    .card {
+      background: var(--surface);
+      padding: 2rem;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      animation: fadeIn 0.6s ease-out;
     }
-    a:hover {
-      color: #29b976;
+
+    .header-icon {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      margin: 0 0 0.5rem 0;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      background: var(--border);
+      border-radius: 99px;
+      height: 8px;
+      width: 100%;
+      margin-bottom: 0.5rem;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      background: var(--primary);
+      height: 100%;
+      border-radius: 99px;
+      transition: width 1s ease-in-out;
+    }
+
+    .countdown-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      display: block;
+    }
+
+    /* Buttons */
+    .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.875rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  margin-bottom: 0.75rem;
+  box-sizing: border-box; /* Esta es la línea mágica que iguala las proporciones */
+}
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background-color: #f0fdf4;
+      color: var(--success-hover);
+      border: 1px solid #48ff88;
+    }
+
+    .btn-secondary:hover {
+      background-color: #dcfce7;
+    }
+
+    /* Verse */
+    .verse-box {
+      background: #f8fafc;
+      border-left: 4px solid var(--primary);
+      padding: 1rem;
+      border-radius: 0 12px 12px 0;
+      margin: 1.5rem 0;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      text-align: left;
+    }
+
+    /* Calendar Grid */
+    .calendar-title {
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: block;
+      text-align: left;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      margin-bottom: 1rem;
+    }
+
+    .day-cell {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .day-past {
+      background: #6f009b4f;
+      color: var(--text-muted);
+    }
+
+    .day-today {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+      transform: scale(1.05);
+    }
+
+    .day-future {
+      background: transparent;
+      border: 1px dashed var(--border);
+      color: #9ca3af;
+    }
+
+    .day-50 {
+      background: var(--success);
+      color: white;
+      padding: 0.75rem;
+      border-radius: 12px;
+      font-weight: bold;
+      letter-spacing: 1px;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
+
   <div class="card">
-    <h1 id="omer-count">Cargando...</h1>
-    <p id="omer-detail"></p>
-    <p id="countdown"></p>
-    <button class="share-button" onclick="shareToWhatsApp()">📲 Compartir en WhatsApp</button>
-    <p class="verse" id="daily-verse"></p>
-    <div class="calendar" id="omer-calendar"></div>
+    <i class="fa-solid fa-dove header-icon"></i>
+    <h1 id="omer-title">Cargando...</h1>
+    <p class="subtitle" id="omer-subtitle"></p>
+
+    <div class="progress-container">
+    <div class="progress-bar" id="progress-bar" style="width: 0%;"></div>
+    </div>
+    <span class="countdown-text" id="countdown"></span>
+
+    <a id="btn-study" class="btn btn-primary" href="#" target="_blank" style="display: none;">
+      <i class="fa-solid fa-book-open"></i> Estudio del Día
+    </a>
+    
+    <button class="btn btn-secondary" onclick="shareToWhatsApp()">
+      <i class="fa-brands fa-whatsapp"></i> Compartir
+    </button>
+
+    <div class="verse-box" id="daily-verse"></div>
+
+    <span class="calendar-title">Calendario del Omer</span>
+    <div class="calendar-grid" id="calendar-grid"></div>
+    <div class="day-50" id="day-50-banner">DÍA 50: SHAVUOT</div>
   </div>
 
   <script>
-    const start = new Date(2026, 3, 4); // 4th March 2026 (Month is 0-indexed)
-    start.setDate(start.getDate() ); // Set the start date to yesterday
-    start.setHours(19, 0, 0, 0);
-    const now = new Date();
-    const omerStart = now >= start ? start : new Date(start.getTime() - 24 * 60 * 60 * 1000);
-    const diffTime = now - omerStart;
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-    let displayDay = diffDays >= 1 && diffDays <= 50 ? diffDays : 0;
-    const weeks = Math.floor(displayDay / 7) + 1;
-    const days = displayDay % 7;
-    const weekText = `semana ${weeks}`;
-    const dayText = `día ${days}`;
-
-    document.getElementById("omer-count").textContent = `🕊️ Día ${displayDay} del Omer`;
-    document.getElementById("omer-detail").textContent = `📿 (${weekText},  ${dayText})`;
-    const remainingDays = 50 - displayDay;
-    document.getElementById("countdown").textContent = `⏳ Faltan ${remainingDays} día${remainingDays === 1 ? '' : 's'} para completar la cuenta`;
-
-
-    function shareToWhatsApp() {
-      const message = document.getElementById("omer-count").textContent + "\n" +
-                      document.getElementById("omer-detail").textContent + "\n" +
-                      document.getElementById("countdown").textContent;
-      const encodedMessage = encodeURIComponent(message);
-      const url = `https://wa.me/?text=${encodedMessage}`;
-      window.open(url, '_blank');
-    }
-
-    const calendar = document.getElementById("omer-calendar");
-    let calendarHTML = '<strong>Calendario del Omer:</strong><br><div style="display:grid;grid-template-columns: repeat(7, 1fr); gap:5px; margin-top: 10px;">';
-    for (let i = 1; i <= 49; i++) {
-      let style = i === displayDay ? 'background:#25D366;color:white;font-weight:bold;' : 'background:#ddd;';
-      calendarHTML += `<div style="padding:6px;border-radius:8px;${style}">${i}</div>`;
-    }
-    calendarHTML += '</div>';
-    calendarHTML += `<div style="margin-top:10px;padding:10px;border-radius:8px;background:#ddd;color:black;font-weight:bold;text-align:center;width:94%;">🎉 Dia 50</div>`;
-    if (displayDay === 50) {
-    calendarHTML = `<div style="margin-top:10px;padding:150px;border-radius:12px;background:#25D366;color:white;font-weight:bold;text-align:center;font-size:2rem;display:flex;justify-content:center;align-items:center;width:18%;">🎉 SHAVUOT 🎉</div>`;
-    }
-    calendar.innerHTML = calendarHTML;
-
+    // --- Configuración y Datos ---
+    const startDateStr = "2026-04-04T19:00:00"; // Usando formato ISO para evitar problemas de zona horaria
+    const totalDays = 50;
+    
     const verses = [
       "La semana del cruce del Mar Rojo (Éxodo 14.26 - 15.21)",
-      "La semana del cambio del agua de la amargura (de Marah) (Éxodo 14.26 - 15.21)",
-      "Elim, donde encontraron 12 arroyos de agua y 70 palmeras (Éxodo 15.27 - 16.03)",
-      "La semana del maná, que cayó del cielo en el desierto (Éxodo 16.04 - 16.36)",
+      "La semana del cambio del agua de la amargura (Éxodo 14.26 - 15.21)",
+      "Elim, 12 arroyos de agua y 70 palmeras (Éxodo 15.27 - 16.03)",
+      "La semana del maná cayendo del cielo (Éxodo 16.04 - 16.36)",
       "La semana de brotar agua de la roca (Éxodo 17.01 - 17.07)",
       "La semana de las batallas contra Amaleq (Éxodo 17.08 - 17.16)",
       "La semana de permanecer en el Monte Sinaí (Éxodo 19.01 - 19.25)"
     ];
-    const verse = verses[weeks - 1];
-    document.getElementById("daily-verse").textContent = `📖 Texto Semanal: “${verse}”`;
 
-    const pdfs = [
-      { title: "Estudio Dia 1", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%201%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 2", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%202%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 3", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%203%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 4", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%204%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 5", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%205%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 6", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%206%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 7", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%207%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 8", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%208%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 9", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%209%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 10", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2010%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 11", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2011%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 12", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2012%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 13", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2013%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 14", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2014%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 15", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2015%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 16", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2016%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 17", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2017%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 18", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2018%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 19", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2019%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 20", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2020%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 21", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2021%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 22", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2022%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 23", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2023%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 24", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2024%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 25", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2025%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 26", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2026%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 27", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2027%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 28", url: "https://retorno.tv/Pascua2020/Omer/dia%2028%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 29", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2029%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 30", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2030%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 31", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2031%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 32", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2032%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 33", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2033%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 34", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2034%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 35", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2035%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 36", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2036%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 37", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2037%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 38", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2038%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 39", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2039%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 40", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2040%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 41", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2041%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 42", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2042%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 43", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2043%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 44", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2044%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 45", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2045%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 46", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2046%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 47", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2047%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 48", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2048%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 49", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2049%20-%20cuenta%20del%20Omer.pdf" },
-      { title: "Estudio Dia 50", url: "https://retorno.tv/Pascua2020/Omer/d%C3%ADa%2050%20-%20cuenta%20del%20Omer.pdf" }
-    ];
+    // URLs de los PDFs generadas dinámicamente para ahorrar espacio en código
+    const pdfs = Array.from({ length: 50 }, (_, i) => {
+      const dayNum = i + 1;
+      // Manejando la excepción del día 28 en tu array original ("dia" vs "día")
+      const dayWord = dayNum === 28 ? "dia" : "d%C3%ADa"; 
+      return {
+        title: `Estudio Día ${dayNum}`,
+        url: `https://retorno.tv/Pascua2020/Omer/${dayWord}%20${dayNum}%20-%20cuenta%20del%20Omer.pdf`
+      };
+    });
 
-   
-    if (displayDay >= 1 && displayDay <= 50) {
-      const selectedPdf = pdfs[displayDay - 1];
-      // Crear un contenedor para el enlace si no existe
-      let linkContainer = document.getElementById("pdf-link");
-      if (!linkContainer) {
-        linkContainer = document.createElement("div");
-        linkContainer.id = "pdf-link";
-        document.querySelector(".card").appendChild(linkContainer);
+    // --- Lógica Principal ---
+    function init() {
+      const start = new Date(startDateStr);
+      const now = new Date();
+      
+      const omerStart = now >= start ? start : new Date(start.getTime() - 24 * 60 * 60 * 1000);
+      const diffTime = now - omerStart;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+      // Asegurar que el día esté entre 0 y 50
+      const displayDay = Math.max(0, Math.min(diffDays, totalDays));
+
+      updateUI(displayDay);
+      renderCalendar(displayDay);
+    }
+
+    function updateUI(displayDay) {
+      let weeks = Math.floor(displayDay / 7) + 1;
+      let days = displayDay % 7 || 7; // Si es múltiplo de 7, mostrar 7 en lugar de 0
+      if (displayDay === 49){
+        // Si es el día 49, mostrar "Semana 7, Día 7"
+        weeks = 7;
+        days = 7;
       }
-      // Mostrar el enlace en la página
-      linkContainer.innerHTML = `Link para: <a href="${selectedPdf.url}" target="_blank">${selectedPdf.title}</a>`;
+      
+      
+      const titleEl = document.getElementById("omer-title");
+      const subtitleEl = document.getElementById("omer-subtitle");
+      const countdownEl = document.getElementById("countdown");
+      const progressEl = document.getElementById("progress-bar");
+      const studyBtn = document.getElementById("btn-study");
+      const verseEl = document.getElementById("daily-verse");
+
+      if (displayDay > 0 && displayDay < 50) {
+        titleEl.textContent = `Día ${displayDay} del Omer`;
+        subtitleEl.textContent = `Semana ${weeks}, Día ${days}`;
+        
+        const remainingDays = totalDays - displayDay;
+        countdownEl.textContent = `Faltan ${remainingDays} día${remainingDays !== 1 ? 's' : ''}`;
+        progressEl.style.width = `${(displayDay / totalDays) * 100}%`;
+
+        studyBtn.style.display = "flex";
+        studyBtn.href = pdfs[displayDay - 1].url;
+// Busca el espacio y el paréntesis " (" y le agrega el salto de línea
+        const textoConSalto = verses[weeks - 1].replace(" (", "<br>(");
+        verseEl.innerHTML = `<strong>Lectura de la semana:</strong><br>"${textoConSalto}"`;
+      } 
+      else if (displayDay === 50) {
+        titleEl.textContent = "¡Día 50!";
+        subtitleEl.textContent = "Fiesta de Shavuot";
+        countdownEl.textContent = "Cuenta completada exitosamente.";
+        progressEl.style.width = "100%";
+        progressEl.style.backgroundColor = "var(--success)";
+        
+        studyBtn.style.display = "flex";
+        studyBtn.href = pdfs[49].url;
+        verseEl.style.display = "none";
+      } 
+      else {
+        titleEl.textContent = "Preparando la cuenta";
+        subtitleEl.textContent = "El Omer aún no ha comenzado";
+        countdownEl.textContent = "A la espera...";
+      }
     }
 
-    if (displayDay === 50) {
-      document.getElementById("omer-count").textContent = "🎉 ¡Día 50 del Omer!";
-      document.getElementById("omer-detail").textContent = "🎊 ¡Felicidades por completar la cuenta del Omer!";
-      document.getElementById("countdown").textContent = "✅ La cuenta del Omer ha finalizado.";
+    function renderCalendar(displayDay) {
+      const grid = document.getElementById("calendar-grid");
+      const banner50 = document.getElementById("day-50-banner");
+      let html = "";
 
-      document.getElementById("daily-verse").textContent = "";
+      for (let i = 1; i <= 49; i++) {
+        let stateClass = "day-future";
+        if (i < displayDay) stateClass = "day-past";
+        if (i === displayDay) stateClass = "day-today";
+
+        html += `<div class="day-cell ${stateClass}">${i}</div>`;
+      }
+      
+      grid.innerHTML = html;
+
+      if (displayDay === 50) {
+        grid.style.display = "none";
+        banner50.style.fontSize = "1.5rem";
+        banner50.style.padding = "3rem 1rem";
+        banner50.innerHTML = "🎉 ¡FELIZ SHAVUOT! 🎉";
+      }
     }
 
+    function shareToWhatsApp() {
+      const title = document.getElementById("omer-title").textContent;
+      const subtitle = document.getElementById("omer-subtitle").textContent;
+      const studyLink = document.getElementById("btn-study").href;
+      
+      let message = `🕊️ *${title}*\n📿 ${subtitle}\n\n`;
+      if (studyLink && studyLink !== "#") {
+         message += `📖 Estudio del día:\n${studyLink}`;
+      }
+      
+      window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+    }
 
+    // Iniciar la app
+    init();
   </script>
 </body>
 </html>
