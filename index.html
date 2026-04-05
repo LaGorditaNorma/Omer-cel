@@ -81,28 +81,39 @@
     .countdown-text {
       font-size: 0.85rem;
       color: var(--text-muted);
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       display: block;
     }
 
     /* Buttons */
+    .button-group {
+      display: flex;
+      gap: 0.5rem;
+      width: 100%;
+      margin-bottom: 0.75rem;
+    }
+
     .btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  width: 100%;
-  padding: 0.875rem;
-  border: none;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-decoration: none;
-  margin-bottom: 0.75rem;
-  box-sizing: border-box; /* Esta es la línea mágica que iguala las proporciones */
-}
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.875rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      box-sizing: border-box;
+    }
+
+    .button-group .btn {
+      flex: 1; /* Para que compartan el espacio 50/50 */
+      margin-bottom: 0;
+    }
 
     .btn-primary {
       background-color: var(--primary);
@@ -117,11 +128,25 @@
     .btn-secondary {
       background-color: #f0fdf4;
       color: var(--success-hover);
-      border: 1px solid #48ff88;
+      border: 1px solid #48ff88; /* Tu color modificado */
     }
 
     .btn-secondary:hover {
       background-color: #dcfce7;
+    }
+
+    /* Botón Check (Nuevo) */
+    .btn-check {
+      background: #f3f4f6;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      margin-bottom: 1rem;
+    }
+    
+    .btn-check.active {
+      background: var(--success);
+      color: white;
+      border-color: var(--success);
     }
 
     /* Verse */
@@ -160,24 +185,39 @@
       border-radius: 8px;
       font-size: 0.85rem;
       font-weight: 600;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: 0.2s;
     }
 
     .day-past {
-      background: #6f009b4f;
-      color: var(--text-muted);
+      background: #6f009b4f; /* Tu color modificado */
+      color: var(--text-main);
+    }
+
+    .day-read {
+      background: #dcfce7 !important;
+      color: #15803d !important;
+    }
+
+    .day-selected {
+      border-color: var(--primary) !important;
+      transform: scale(1.1);
+      z-index: 1;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
 
     .day-today {
       background: var(--primary);
       color: white;
       box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
-      transform: scale(1.05);
     }
 
     .day-future {
       background: transparent;
       border: 1px dashed var(--border);
       color: #9ca3af;
+      pointer-events: none; /* Deshabilita clics en días futuros */
     }
 
     .day-50 {
@@ -193,6 +233,9 @@
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* Canvas oculto */
+    #share-canvas { display: none; }
   </style>
 </head>
 <body>
@@ -203,29 +246,42 @@
     <p class="subtitle" id="omer-subtitle"></p>
 
     <div class="progress-container">
-    <div class="progress-bar" id="progress-bar" style="width: 0%;"></div>
+      <div class="progress-bar" id="progress-bar" style="width: 0%;"></div>
     </div>
     <span class="countdown-text" id="countdown"></span>
 
-    <a id="btn-study" class="btn btn-primary" href="#" target="_blank" style="display: none;">
-      <i class="fa-solid fa-book-open"></i> Estudio del Día
-    </a>
-    
-    <button class="btn btn-secondary" onclick="shareToWhatsApp()">
-      <i class="fa-brands fa-whatsapp"></i> Compartir
+    <button id="btn-mark-read" class="btn btn-check" onclick="toggleReadStatus()" style="display: none;">
+      <i class="fa-regular fa-circle-check"></i> Marcar como leído
     </button>
+
+    <div class="button-group">
+      <a id="btn-study" class="btn btn-primary" href="#" target="_blank" style="display: none;">
+        <i class="fa-solid fa-book-open"></i> Estudio
+      </a>
+      
+      <button class="btn btn-secondary" onclick="shareToWhatsApp()">
+        <i class="fa-brands fa-whatsapp"></i> Compartir
+      </button>
+    </div>
 
     <div class="verse-box" id="daily-verse"></div>
 
-    <span class="calendar-title">Calendario del Omer</span>
+    <span class="calendar-title">Historial de Cuenta</span>
     <div class="calendar-grid" id="calendar-grid"></div>
     <div class="day-50" id="day-50-banner">DÍA 50: SHAVUOT</div>
   </div>
 
+  <canvas id="share-canvas" width="1080" height="1080"></canvas>
+
   <script>
     // --- Configuración y Datos ---
-    const startDateStr = "2026-04-04T19:00:00"; // Usando formato ISO para evitar problemas de zona horaria
+    const startDateStr = "2026-04-04T19:00:00"; 
     const totalDays = 50;
+    
+    // Variables de Estado (NUEVO)
+    let currentDayReal = 0; 
+    let selectedDay = 0;    
+    let readDays = JSON.parse(localStorage.getItem('omerReadDays')) || [];
     
     const verses = [
       "La semana del cruce del Mar Rojo (Éxodo 14.26 - 15.21)",
@@ -237,10 +293,8 @@
       "La semana de permanecer en el Monte Sinaí (Éxodo 19.01 - 19.25)"
     ];
 
-    // URLs de los PDFs generadas dinámicamente para ahorrar espacio en código
     const pdfs = Array.from({ length: 50 }, (_, i) => {
       const dayNum = i + 1;
-      // Manejando la excepción del día 28 en tu array original ("dia" vs "día")
       const dayWord = dayNum === 28 ? "dia" : "d%C3%ADa"; 
       return {
         title: `Estudio Día ${dayNum}`,
@@ -257,45 +311,62 @@
       const diffTime = now - omerStart;
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
-      // Asegurar que el día esté entre 0 y 50
-      const displayDay = Math.max(0, Math.min(diffDays, totalDays));
+      // Definimos el día real actual
+      //currentDayReal = Math.max(0, Math.min(diffDays, totalDays));
+      
+      // *MODO PRUEBA*: Si querés probar el calendario, descomentá la línea de abajo y poné un número (ej. 15)
+      currentDayReal = 21;
 
-      updateUI(displayDay);
-      renderCalendar(displayDay);
+      selectedDay = currentDayReal; // Iniciamos viendo el día de hoy
+      
+      updateUI();
     }
 
-    function updateUI(displayDay) {
-      let weeks = Math.floor(displayDay / 7) + 1;
-      let days = displayDay % 7 || 7; // Si es múltiplo de 7, mostrar 7 en lugar de 0
-      if (displayDay === 49){
-        // Si es el día 49, mostrar "Semana 7, Día 7"
+    function updateUI() {
+      // Tu lógica adaptada para el día que estamos VIENDO (selectedDay)
+      let weeks = Math.floor(selectedDay / 7) + 1;
+      let days = selectedDay % 7 || 7; 
+      if (selectedDay === 49){
         weeks = 7;
         days = 7;
       }
-      
       
       const titleEl = document.getElementById("omer-title");
       const subtitleEl = document.getElementById("omer-subtitle");
       const countdownEl = document.getElementById("countdown");
       const progressEl = document.getElementById("progress-bar");
       const studyBtn = document.getElementById("btn-study");
+      const checkBtn = document.getElementById("btn-mark-read");
       const verseEl = document.getElementById("daily-verse");
 
-      if (displayDay > 0 && displayDay < 50) {
-        titleEl.textContent = `Día ${displayDay} del Omer`;
-        subtitleEl.textContent = `Semana ${weeks}, Día ${days}`;
+      if (selectedDay > 0 && selectedDay < 50) {
+        titleEl.textContent = `Día ${selectedDay} del Omer`;
+        // Agregamos un indicador si estamos viendo un día pasado
+        let extraText = selectedDay === currentDayReal ? "" : " (Historial)";
+        subtitleEl.textContent = `Semana ${weeks}, Día ${days}${extraText}`;
         
-        const remainingDays = totalDays - displayDay;
+        const remainingDays = totalDays - currentDayReal; // Countdown real
         countdownEl.textContent = `Faltan ${remainingDays} día${remainingDays !== 1 ? 's' : ''}`;
-        progressEl.style.width = `${(displayDay / totalDays) * 100}%`;
+        progressEl.style.width = `${(currentDayReal / totalDays) * 100}%`;
 
         studyBtn.style.display = "flex";
-        studyBtn.href = pdfs[displayDay - 1].url;
-// Busca el espacio y el paréntesis " (" y le agrega el salto de línea
-        const textoConSalto = verses[weeks - 1].replace(" (", "<br>(");
+        studyBtn.href = pdfs[selectedDay - 1].url;
+
+        checkBtn.style.display = "flex";
+        if (readDays.includes(selectedDay)) {
+          checkBtn.classList.add("active");
+          checkBtn.innerHTML = '<i class="fa-solid fa-check-double"></i> ¡Leído!';
+        } else {
+          checkBtn.classList.remove("active");
+          checkBtn.innerHTML = '<i class="fa-regular fa-circle-check"></i> Marcar como leído';
+        }
+
+        // Tu lógica de texto con salto de línea
+        let verseIndex = Math.min(weeks - 1, 6);
+        const textoConSalto = verses[verseIndex].replace(" (", "<br>(");
         verseEl.innerHTML = `<strong>Lectura de la semana:</strong><br>"${textoConSalto}"`;
       } 
-      else if (displayDay === 50) {
+      else if (selectedDay === 50) {
         titleEl.textContent = "¡Día 50!";
         subtitleEl.textContent = "Fiesta de Shavuot";
         countdownEl.textContent = "Cuenta completada exitosamente.";
@@ -304,31 +375,42 @@
         
         studyBtn.style.display = "flex";
         studyBtn.href = pdfs[49].url;
+        checkBtn.style.display = "none";
         verseEl.style.display = "none";
       } 
       else {
         titleEl.textContent = "Preparando la cuenta";
         subtitleEl.textContent = "El Omer aún no ha comenzado";
         countdownEl.textContent = "A la espera...";
+        checkBtn.style.display = "none";
       }
+
+      renderCalendar();
     }
 
-    function renderCalendar(displayDay) {
+    function renderCalendar() {
       const grid = document.getElementById("calendar-grid");
       const banner50 = document.getElementById("day-50-banner");
       let html = "";
 
       for (let i = 1; i <= 49; i++) {
-        let stateClass = "day-future";
-        if (i < displayDay) stateClass = "day-past";
-        if (i === displayDay) stateClass = "day-today";
+        let stateClass = "";
+        
+        if (i > currentDayReal) {
+          stateClass = "day-future";
+        } else {
+          stateClass = "day-past";
+          if (readDays.includes(i)) stateClass += " day-read";
+          if (i === currentDayReal) stateClass = "day-today"; // Sobreescribe si es hoy
+          if (i === selectedDay) stateClass += " day-selected";
+        }
 
-        html += `<div class="day-cell ${stateClass}">${i}</div>`;
+        html += `<div class="day-cell ${stateClass}" onclick="selectDay(${i})">${i}</div>`;
       }
       
       grid.innerHTML = html;
 
-      if (displayDay === 50) {
+      if (currentDayReal === 50 || selectedDay === 50) {
         grid.style.display = "none";
         banner50.style.fontSize = "1.5rem";
         banner50.style.padding = "3rem 1rem";
@@ -336,6 +418,25 @@
       }
     }
 
+    // Funciones de interacción nuevas
+    function selectDay(day) {
+      if (day <= currentDayReal) {
+        selectedDay = day;
+        updateUI();
+      }
+    }
+
+    function toggleReadStatus() {
+      if (readDays.includes(selectedDay)) {
+        readDays = readDays.filter(d => d !== selectedDay);
+      } else {
+        readDays.push(selectedDay);
+      }
+      localStorage.setItem('omerReadDays', JSON.stringify(readDays));
+      updateUI();
+    }
+
+    // Generación de Imagen y Compartir
     function shareToWhatsApp() {
       const title = document.getElementById("omer-title").textContent;
       const subtitle = document.getElementById("omer-subtitle").textContent;
@@ -348,7 +449,6 @@
       
       window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
     }
-
     // Iniciar la app
     init();
   </script>
